@@ -621,6 +621,14 @@
                 $('.sidebar-offcanvas').toggle();
              });
         });
+
+    $("#sidebar-collapse").on('show.bs.collapse', function(){
+        $("#map").hide();
+    });
+
+    $("#sidebar-collapse").on('hide.bs.collapse', function(){
+        $("#map").show();
+    });
   </script>
 	</body>
 </html>
