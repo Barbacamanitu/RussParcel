@@ -1,0 +1,626 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Franklin County Property Map</title>
+
+        <!-- Core CSS -->
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
+        <link rel="stylesheet" href="measure/leaflet-measure.css">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <link rel="stylesheet" href="assets/typeahead/typeahead.js-bootstrap.css" />
+		<link rel="stylesheet" href="assets/cartodb_patch.css" />
+
+         <!-- Personalized font, can add through Google APIs -->
+        <link href='http://fonts.googleapis.com/css?family=Fenix|Meddon' rel='stylesheet' type='text/css'>
+            <link href= 'assets/template.css' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+
+
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle btn" data-toggle="collapse" data-target="#navbar-collapse" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i class="fa fa-ellipsis-v" style="color: black"></i></button>
+                <button id="toggle" type="button" class="navbar-toggle btn" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i id="toggleIcon" class="fa fa-check-square-o" style="color: black"></i></button>
+                <button type="button" class="navbar-toggle btn" data-toggle="collapse" data-target="#sidebar-collapse" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i class="fa fa-bars"></i></button>
+<!-- Header title -->
+                <a class="navbar-brand" style="color: #fff" href="http://franklincountyal.org/" target="_blank"><i>Franklin County</i></a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-collapse">
+                <form class="navbar-form navbar-right" name="searchform" id="searchform">
+                    <div class="input-group search-container">
+                        <input id="searchbox" type="text" class="form-control" placeholder="Search owner name or parcel #" autocomplete="off">
+                        <span class="input-group-addon" id="searchButton"><i class="fa fa-search"></i></span>
+						
+                    </div>
+                </form>
+<!-- Navigation bar -->
+                <ul class="nav navbar-nav">
+                    <li><a href="http://maps.franklincountyal.org" target="_blank"><i class="fa fa-map-o" style="color: #fff"></i>&nbsp;&nbsp;<span style="color: white">Map Gallery</span></a></li>
+					<li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false;"><i class="fa fa-info-circle" style="color: #fff"></i>&nbsp;&nbsp;<span style="color: white">About</span></a></li>
+					<li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#helpModal').modal('show'); return false;"><i class="fa fa-life-saver" style="color: #fff"></i>&nbsp;&nbsp;<span style="color: white">Help</span></a></li>
+                </ul>
+            </div><!--/.navbar-collapse -->
+        </div>
+
+ <!-- Sidebar -->  
+		<div class="row" id="container">
+            
+
+            
+            <div class="collapse-non-md col-sm-3 col-lg-3 my-sidebar" id="sidebar-collapse">
+                <ul class="nav nav-tabs" id="myTab">
+ <!-- Sidebar navigation -->
+                    <li class ="active" style="color: black"><a href="#test" data-toggle="tab" style="color: black"><i class="fa fa-child"></i>&nbsp;Welcome</a></li>
+
+                    <li><a href="#layers" data-toggle="tab" style="color: black"><i class="fa fa-check-square-o"></i>&nbsp;Map Controls</a></li>
+
+
+                </ul>
+
+                <div class="tab-content" style="padding-top: 10px;">
+                    <div class="tab-pane active" id="test">
+
+
+                        <div class="panel-group">
+   <!-- First Tab -->
+                        <div class="panel panel-default">
+                                <div class="panel-heading"; style="background-color: #e8e8e8">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_" href="#overlay-test" style="color: black">
+                                        Welcome to the Franklin County Property Map
+                                    </a>
+                                </div>
+                                <div id="overlay-test" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="padding: 0px 15px;">
+
+											<h4 align="center">Revenue Commissioner</h4>
+											<h4 align="center">Veronica Stancil</h4>
+
+											<img src="assets/images/veronica.jpg"/>
+                                            <!--<label>
+                                                <p>Insert detailed description about Franklin County GIS Consortium/this map</p>
+                                            </label>-->
+
+
+                                    </div>
+                                </div>
+                            </div>
+							<style>
+								img {
+								max-width: 100%;
+								height: 300px;
+								display: block;
+								margin: 0 auto;
+							}
+							</style>
+ <!-- Second heading -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading"; style="background-color: #e8e8e8">
+                                    <label>
+                                        <a style="color: black">Hours of Operation </a>
+                                    </label>
+                                </div>
+                                <div id="basemap-layers" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="padding: 0px 15px;">
+                                            <label>
+                                                <p>Monday - Friday</p>
+												<p>8am - 5pm</p>
+                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+   <!-- Third heading -->
+                         <div class="panel panel-default">
+                                <div class="panel-heading"; style="background-color: #e8e8e8">
+                                    <label>
+                                        <a style="color: black">Disclaimer</a>
+                                    </label>
+                                </div>
+                                <div id="basemap-layers" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="padding: 0px 15px;">
+                                            <label>
+                                                <p>No promises are made regarding the accuracy of the data contained in this site.</p>
+												<p>Should you need to stake out your property boundary, contact a professional licensed surveyor. The property
+												boundaries on this map are for illustrative purposes only.
+												<p>Under no circumstance will Franklin County be liable for any loss or damage caused directly or indirectly
+												by the user's reliance on information obtained from the <i>Franklin County Property Map</i>.  It is the user's
+												sole responsibility to evaluate the accuracy, completeness or usefulness of any information or
+												content available through this web site.</p>
+                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+  <!-- Second tab -->
+                    <div class="tab-pane" id="layers">
+
+
+                        <div class="panel-group">
+
+                        <div class="panel panel-default">
+                                <div class="panel-heading"; style="background-color: #e8e8e8">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_" href="#overlay-layers" style="color: black">
+                                        Navigating the Franklin County property map
+                                    </a>
+                                </div>
+                                <div id="overlay-layers" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="padding: 0px 15px;">
+
+
+                                            <label>
+                                                <p>Toggle map items on/off below. Left-click or touch a feature on the map to retrieve information.</p>
+                                                <p>To see a detailed report for any property, click the <i>More Info</i> link inside the information window.</p>
+											</label>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading"; style="background-color: #e8e8e8">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_" href="#overlay-layers" style="color: black">
+                                        Overlay
+                                    </a>
+                                </div>
+                                <div id="overlay-layers" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="padding: 0px 15px;">
+
+										            <div class="text">
+
+                                            <div class = "checkbox">
+                                            <label>
+                                              <input type="checkbox" name="overlayLayers" id="cartoParcel" z-index="3" checked>
+                                                Parcels   &nbsp;<width="20" height="28">
+                                            </label>
+                                          </div>
+
+                                          <div class = "checkbox">
+                                            <label>
+                                              <input type="checkbox" name="overlayLayers" id="annotation" z-index="4">
+                                                Parcel Dimensions   &nbsp;<width="20" height="28">
+                                            </label>
+                                          </div>
+
+                                          <div class = "checkbox">
+                                            <label>
+                                              <input type="checkbox" name="overlayLayers" id="cartoFloodZones" z-index="5">
+                                                Flood Zones   &nbsp;<width="20" height="28">
+                                            </label>
+                                          </div>
+
+                                          <div class = "checkbox">
+                                            <label>
+                                              <input type="checkbox" name="overlayLayers" id="muniZoning" z-index="6">
+                                                Zoning   &nbsp;<width="20" height="28">
+                                              </label>
+                                            </div>
+
+
+
+										</div>
+										<!--<div class="text">
+										                        <label>
+                                                <input type="checkbox" name="overlayLayers" id="parcelAnno" z-index="4" checked>
+                                                Parcel Dimensions   &nbsp;<width="20" height="28">
+                                            </label>
+
+										</div>
+										<div class="text">
+											<input type="checkbox" name="overlayLayers" id="floodZones" z-index="5" checked>
+                                                Flood Zones   &nbsp;<width="20" height="28">
+                                            </label>
+
+										</div>
+										<div class="text">
+											<input type="checkbox" name="overlayLayers" id="muniZoning" z-index="6" checked>
+                                                Zoning   &nbsp;<width="20" height="28">
+                                            </label>
+
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading"; style="background-color: #e8e8e8">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_" href="#basemap-layers" style="color: black">
+                                        Basemaps
+                                    </a>
+                                </div>
+                                <div id="basemap-layers" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="padding: 0px 15px;">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="basemapLayersRadio" id="mapboxOSM" checked>
+                                                Streets
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="basemapLayersRadio" id="mapboxSAT">
+                                                Satellite
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="basemapLayersRadio" id="esriTopo">
+                                                Topography
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- End Sidebar -->
+
+
+            <div class="col-sm-9 col-lg-9" id="map">
+                <div id="loading">
+                    <div class="loading-indicator">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-info" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+ <!-- Navigation modal -->
+        <div class="modal fade" id="aboutModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Welcome to the<b> Franklin County </b>property map</h4>
+                    </div>
+
+                    <div class="modal-body">
+                         <ul id="aboutTabs" class="nav nav-tabs">
+                            <li class="active" style="color: black"><a href="#about" data-toggle="tab" style="color: grey"><i class="fa fa-question-circle" style="color: black"></i>&nbsp;About this site</a></li>
+                            <!-- <li><a href="#contact" data-toggle="tab" style="color: grey"><i class="fa fa-envelope" style="color: black"></i>&nbsp;Contribute</a></li>-->
+                            <li><a href="#disclaimer" data-toggle="tab" style="color: grey"><i class="fa fa-wrench" style="color: black"></i>&nbsp;Technology</a></li>
+							<li><a href="#recommendations" data-toggle="tab" style="color: grey"><i class="fa fa-wrench" style="color: black"></i>&nbsp;Recommendations</a></li>
+                            <!--<li class="dropdown" style="color: black">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: grey"><i class="fa fa-globe" style="color: black"></i>&nbsp;Recommendations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a href="#cemeteries-tab" data-toggle="tab" >Cemeteries</a></li>
+
+                                </ul>
+                            </li>-->
+                        </ul>
+                        <div id="aboutTabsContent" class="tab-content" style="padding-top: 10px;">
+                            <div class="tab-pane fade active in" id="about">
+                                <p>The Franklin County Property Map is a development of the Franklin County GIS Consortium, in cooperation with the Franklin County Revenue Department.</p>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Attribution
+                                    </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">This application was forked from the <a href="https://github.com/bonesdontlie/Commented-ieldran" style="color: #8e994f">ieldran</a> project by <a href="http://bonesdontlie.wordpress.com" style="color: #8e994f">Katy Meyers</a>, Department of Anthropology, Michigan State University</li>
+                                        <li class="list-group-item">Built from <a href="https://github.com/bmcbride/bootleaf" style="color: #8e994f">Bootleaf</a>, created by Bryan McBride, a framework for building responsive web mapping applications with <a href="http://getbootstrap.com/" style="color: #8e994f">Bootstrap 3</a> and <a href="http://leafletjs.com/" target="_blank" style="color: #8e994f">Leaflet</a></li>
+                                        <li class="list-group-item">Created by <a href="https://www.linkedin.com/in/michael-hughes-9802bb3a" style="color: #8e994f">Michael Hughes</a>, Earl Clark, and Russ Martelli</li>
+                                        <li class="list-group-item">Data hosted in <a href="https://carto.com/" style="color: #8e994f">Carto</a> and <a href="https://www.arcgis.com/home/index.html" style="color: #8e994f">ArcGIS Online</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="disclaimer">
+                                <!--<p>This site is built from <a href="https://github.com/bmcbride/bootleaf" style="color: #8e994f">Bootleaf</a> , created by Bryan McBride - a framework for building responsive web mapping applications with <a href="http://getbootstrap.com/" style="color: #8e994f">Bootstrap 3</a> and <a href="http://leafletjs.com/" target="_blank" style="color: #8e994f">Leaflet</a>
+                                </p>-->
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Features
+                                    </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Fullscreen mobile-friendly map template with responsive navbar, sidebar, and modal placeholders</li>
+                                        <li class="list-group-item">jQuery loading of external GeoJSON files</li>
+                                        <li class="list-group-item">Elegant client-side multi-layer feature search with autocomplete using <a href="http://twitter.github.io/typeahead.js/" target="_blank" style="color: #8e994f">typeahead.js</a></li>
+                                        <li class="list-group-item">Map Markers complements of <a href="http://medialoot.com/item/free-vector-map-location-pins/" style="color: #8e994f">MediaLoot</a>.</li>
+                                        <li class="list-group-item">Custom Location Based URLs complements of <a href="https://github.com/mlevans/leaflet-hash" style="color: #8e994f">Leaflet Hash</a> by Michael Evans.</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <!--<div class="tab-pane fade" id="contact">
+                                <form id="contact-form" method=”POST” action=”contact-form-submission.php”>
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="name">Name:</label>
+                                            <input type="text" class="form-control" id="name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email:</label>
+                                            <input type="text" class="form-control" id="email">
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="cemname">Cemetery Name:</label>
+                                            <input type="text" class="form-control" id="cemname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="location">Cemetery Location:</label>
+                                            <input type="text" class="form-control" id="location">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="other">Other Information:</label>
+                                            <textarea class="form-control" rows="5" id="other"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Submit</button>
+                                    </fieldset>
+                                </form>
+                            </div>-->
+
+
+                            <!--<div class="tab-pane fade" id="cemeteries-tab">
+                                <p>Cemetery data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Theaters/kdu2-865w" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
+                            </div>-->
+
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+		<div class="modal fade" id="helpModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Using the<b> Franklin County </b>property map</h4>
+                    </div>
+
+                    <div class="modal-body">
+                         <ul id="aboutTabs" class="nav nav-tabs">
+                            <li class="active" style="color: black"><a href="#about" data-toggle="tab" style="color: grey"><i class="fa fa-question-circle" style="color: black"></i>&nbsp;About the project</a></li>
+                            <!-- <li><a href="#contact" data-toggle="tab" style="color: grey"><i class="fa fa-envelope" style="color: black"></i>&nbsp;Contribute</a></li>-->
+                            <li><a href="#disclaimer" data-toggle="tab" style="color: grey"><i class="fa fa-wrench" style="color: black"></i>&nbsp;Framework</a></li>
+                            <li class="dropdown" style="color: black">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: grey"><i class="fa fa-globe" style="color: black"></i>&nbsp;Recommendations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a href="#cemeteries-tab" data-toggle="tab" >Cemeteries</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                        <div id="aboutTabsContent" class="tab-content" style="padding-top: 10px;">
+                            <div class="tab-pane fade active in" id="about">
+                                <p>The Franklin County Property Map</p>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Attribution
+                                    </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Map and framework created by <a href="http://bonesdontlie.wordpress.com" style="color: black">Katy Meyers</a>, Department of Anthropology, Michigan State University</li>
+                                        <li class="list-group-item">Data provided by <a href="http://darkageology.wordpress.com/" style="color: black">Matthew Austin</a>, Department of Archaeology, University of Reading</li>
+                                        <li class="list-group-item">Support and sponsorship by <a href="http://www2.matrix.msu.edu/" style="color: black">Matrix: Center for Digital Humanities and Social Science</a></li>
+                                        <li class="list-group-item">Thank you to .... </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="disclaimer">
+                                <p>This site is based on <a href="https://github.com/bmcbride/bootleaf" style="color: black">Bootleaf</a>, created by Bryan McBride, a framework for building web mapping applications with <a href="http://getbootstrap.com/" style="color: black">Bootstrap 3</a> and <a href="http://leafletjs.com/" target="_blank" style="color: black">Leaflet</a>
+                                </p>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Features
+                                    </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Fullscreen mobile-friendly map template with responsive navbar, sidebar, and modal placeholders</li>
+                                        <li class="list-group-item">jQuery loading of external GeoJSON files</li>
+                                        <li class="list-group-item">Elegant client-side multi-layer feature search with autocomplete using <a href="http://twitter.github.io/typeahead.js/" target="_blank" style="color: black">typeahead.js</a></li>
+                                        <li class="list-group-item">Map Markers complements of <a href="http://medialoot.com/item/free-vector-map-location-pins/" style="color: black">MediaLoot</a>.</li>
+                                        <li class="list-group-item">Custom Location Based URLs complements of <a href="https://github.com/mlevans/leaflet-hash" style="color: black">Leaflet Hash</a> by Michael Evans.</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="contact">
+                                <form id="contact-form" method=”POST” action=”contact-form-submission.php”>
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="name">Name:</label>
+                                            <input type="text" class="form-control" id="name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email:</label>
+                                            <input type="text" class="form-control" id="email">
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="cemname">Cemetery Name:</label>
+                                            <input type="text" class="form-control" id="cemname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="location">Cemetery Location:</label>
+                                            <input type="text" class="form-control" id="location">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="other">Other Information:</label>
+                                            <textarea class="form-control" rows="5" id="other"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Submit</button>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="cemeteries-tab">
+                                <p>Cemetery data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Theaters/kdu2-865w" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="legendModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Map Legend</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                        <img src="img/pinblack.png" width="24" height="28"> Mixed Cemeteries</p>
+                        <p>
+                        <img src="img/pinblack.png" width="24" height="28"> Cremation Cemeteries</p>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="loginModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Login</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="contact-form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="name">Username:</label>
+                                    <input type="text" class="form-control" id="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Password:</label>
+                                    <input type="password" class="form-control" id="password">
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Login</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="featureModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title text-primary" id="feature-title"></h4>
+                    </div>
+                    <div class="modal-body" id="feature-info">
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+ <!-- This is where leaflet map begins -->
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+        <script src="https://cdn.jsdelivr.net/leaflet.esri/1.0.3/esri-leaflet.js"></script>
+        <script src="measure/leaflet-measure.js"></script>
+        <script type="text/javascript" src="assets/leaflet-hash.js"></script>
+        <script type="text/javascript" src="measure/measure.js"></script>
+        
+        <script type="text/javascript">
+	
+            $("#toggle").click(function () {
+                $("#toggle i").toggleClass("fa fa-check-square-o fa fa-map-o");
+                $("#map").toggleClass("col-sm-9 col-lg-9 col-sm-12 col-lg-12");
+                $("#sidebar").toggle();
+                if (document.body.clientWidth <= 767) {
+                    $("#map").toggle();
+                };
+                map.invalidateSize();
+                return false;
+            });
+        
+
+
+            $(window).resize(function() {
+                $(".tt-dropdown-menu").css("max-height", $("#container").height()-$(".navbar").height()-20);
+                if (document.body.clientWidth <= 767) {
+                    $("#map").css("class", "col-sm-12 col-lg-12");
+                    $("#sidebar").css("display", "none");
+                } else {
+                    $("#map").css("class", "col-sm-9 col-lg-9");
+                    $("#sidebar").css("display", "block");
+                };
+            });
+
+
+
+
+
+            // Larger screens get expanded layer control
+            if (document.body.clientWidth <= 767) {
+                var isCollapsed = true;
+            } else {
+                var isCollapsed = false;
+            };
+
+            // Placeholder hack for IE
+            if (navigator.appName == "Microsoft Internet Explorer") {
+                $("input").each( function () {
+                    if ($(this).val() == "" && $(this).attr("placeholder") != "") {
+                        $(this).val($(this).attr("placeholder"));
+                        $(this).focus(function () {
+                            if ($(this).val() == $(this).attr("placeholder")) $(this).val("");
+                        });
+                        $(this).blur(function () {
+                            if ($(this).val() == "") $(this).val($(this).attr("placeholder"));
+                        });
+                    }
+                });
+            }
+        </script>
+
+        <script type="text/javascript" src="assets/typeahead/typeahead.js"></script>
+		<script type="text/javascript" src="assets/js/main.js"></script>
+        <script type="text/javascript" src="assets/js/layers.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebar-button').click(function() {
+                $('.sidebar-offcanvas').toggle();
+             });
+        });
+  </script>
+	</body>
+</html>
