@@ -42,7 +42,7 @@ function openInfowindow(latlng, id)
 {
     map.panTo(latlng);
     setTimeout(function(){
-    layers.cartoParcel.trigger('featureClick', null, latlng, null, { cartodb_id: id }, 1);},100);
+    layers.cartoParcel.trigger('featureClick', null, latlng, null, { cartodb_id: id }, 1);},1000);
 }
 
 function createMapboxOSM()

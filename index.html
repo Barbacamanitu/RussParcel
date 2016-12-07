@@ -40,8 +40,7 @@
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle btn" data-toggle="collapse" data-target="#navbar-collapse" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i class="fa fa-ellipsis-v" style="color: black"></i></button>
-                <button id="toggle" type="button" class="navbar-toggle btn" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i id="toggleIcon" class="fa fa-check-square-o" style="color: black"></i></button>
-                <button type="button" class="navbar-toggle btn" data-toggle="collapse" data-target="#sidebar-collapse" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i class="fa fa-bars"></i></button>
+                <button id="toggle" type="button" class="navbar-toggle btn" style="height: 34px; padding: 5px 10px; margin-right: 10px;"><i id="toggleIcon" class="fa fa-map-o" style="color: black"></i></button>
 <!-- Header title -->
                 <a class="navbar-brand" style="color: #fff" href="http://franklincountyal.org/" target="_blank"><i>Franklin County</i></a>
             </div>
@@ -67,7 +66,7 @@
             
 
             
-            <div class="collapse-non-md col-sm-3 col-lg-3 my-sidebar" id="sidebar-collapse">
+            <div class="col-sm-3 col-lg-3 hidden-xs" id="sidebar">
                 <ul class="nav nav-tabs" id="myTab">
  <!-- Sidebar navigation -->
                     <li class ="active" style="color: black"><a href="#test" data-toggle="tab" style="color: black"><i class="fa fa-child"></i>&nbsp;Welcome</a></li>
@@ -561,13 +560,26 @@
         
         <script type="text/javascript">
 	
+    function fixVisibility()
+    {
+        var isMapToggled = $("#toggle i").hasClass("fa-map-o");
+        if (isMapToggled)
+        {
+            $("#sidebar").hide();
+            $("#map").show();
+        }
+        else
+        {
+            $("#sidebar").show();
+            $("#map").hide();
+        }
+    }
             $("#toggle").click(function () {
+
+                //Change button glyph
                 $("#toggle i").toggleClass("fa fa-check-square-o fa fa-map-o");
-                $("#map").toggleClass("col-sm-9 col-lg-9 col-sm-12 col-lg-12");
-                $("#sidebar").toggle();
-                if (document.body.clientWidth <= 767) {
-                    $("#map").toggle();
-                };
+                fixVisibility();
+
                 map.invalidateSize();
                 return false;
             });
@@ -576,13 +588,16 @@
 
             $(window).resize(function() {
                 $(".tt-dropdown-menu").css("max-height", $("#container").height()-$(".navbar").height()-20);
+               
+               if (document.body.clientWidth > 767)
+               {
+                    $("#sidebar").show();
+                    $("#map").show();
+               }
+               
                 if (document.body.clientWidth <= 767) {
-                    $("#map").css("class", "col-sm-12 col-lg-12");
-                    $("#sidebar").css("display", "none");
-                } else {
-                    $("#map").css("class", "col-sm-9 col-lg-9");
-                    $("#sidebar").css("display", "block");
-                };
+                   fixVisibility();
+                }
             });
 
 
@@ -610,25 +625,18 @@
                     }
                 });
             }
+
+            $(function(){
+                 if (document.body.clientWidth <= 767) {
+                   fixVisibility();
+                    $("#sidebar").toggleClass('hidden-xs');
+
+                }
+            });
         </script>
 
         <script type="text/javascript" src="assets/typeahead/typeahead.js"></script>
 		<script type="text/javascript" src="assets/js/main.js"></script>
         <script type="text/javascript" src="assets/js/layers.js"></script>
-        <script type="text/javascript">
-        $(document).ready(function() {
-            $('#sidebar-button').click(function() {
-                $('.sidebar-offcanvas').toggle();
-             });
-        });
-
-    $("#sidebar-collapse").on('show.bs.collapse', function(){
-        $("#map").hide();
-    });
-
-    $("#sidebar-collapse").on('hide.bs.collapse', function(){
-        $("#map").show();
-    });
-  </script>
 	</body>
 </html>

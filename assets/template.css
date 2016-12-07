@@ -74,32 +74,13 @@ html, body, #sidebar, #container {
 
 
 
-.collapse-non-md {
-    height: 0;
-    display: none;
-}
-.collapse-non-md.collapsing {
-    display: block;
-}
 
-@media (min-width: 992px) {
-    .collapse-non-md {
-        height: auto;
-        display: block;
-    }
-}
-
-
-            #sidebar-collapse {
+            #sidebar {
                 padding: 10px; 
                 overflow-y: auto;
                 max-height: 1000px;
             }
 
-            #sidebar-collapse.in,
-            #sidebar-collapse.collapsing {
-                display: block!important;
-            }	
 			
             .tt-dropdown-menu {
                 overflow: hidden;
